@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Aleab.CefUnity.Structs;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security;
 using UnityEngine;
 using Xilium.CefGlue;
-
 
 namespace Aleab.CefUnity
 {
@@ -19,12 +19,12 @@ namespace Aleab.CefUnity
 
         private CefBrowserHost sHost;
 
-        public OffscreenCEFClient(int windowWidth, int windowHeight)
+        public OffscreenCEFClient(Size windowSize, bool hideScrollbars = false)
         {
-            this._loadHandler = new OffscreenLoadHandler(this);
-            this._renderHandler = new OffscreenRenderHandler(windowWidth, windowHeight, this);
+            this._loadHandler = new OffscreenLoadHandler(this, hideScrollbars);
+            this._renderHandler = new OffscreenRenderHandler(windowSize.Width, windowSize.Height, this);
 
-            this.sPixelBuffer = new byte[windowWidth * windowHeight * 4];
+            this.sPixelBuffer = new byte[windowSize.Width * windowSize.Height * 4];
 
             Debug.Log("Constructed Offscreen Client");
         }
@@ -74,10 +74,12 @@ namespace Aleab.CefUnity
         internal class OffscreenLoadHandler : CefLoadHandler
         {
             private OffscreenCEFClient client;
+            private bool hideScrollbars;
 
-            public OffscreenLoadHandler(OffscreenCEFClient client)
+            public OffscreenLoadHandler(OffscreenCEFClient client, bool hideScrollbars)
             {
                 this.client = client;
+                this.hideScrollbars = hideScrollbars;
             }
 
             protected override void OnLoadStart(CefBrowser browser, CefFrame frame, CefTransitionType transitionType)
@@ -92,7 +94,22 @@ namespace Aleab.CefUnity
             protected override void OnLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode)
             {
                 if (frame.IsMain)
+                {
                     Debug.LogFormat("END: {0}, {1}", browser.GetMainFrame().Url, httpStatusCode.ToString());
+
+                    if (this.hideScrollbars)
+                        this.HideScrollbars(frame);
+                }
+            }
+
+            private void HideScrollbars(CefFrame frame)
+            {
+                string jsScript = "var head = document.head;" +
+                                  "var style = document.createElement('style');" +
+                                  "style.type = 'text/css';" +
+                                  "style.appendChild(document.createTextNode('::-webkit-scrollbar { visibility: hidden; }'));" +
+                                  "head.appendChild(style);";
+                frame.ExecuteJavaScript(jsScript, string.Empty, 107);
             }
         }
 

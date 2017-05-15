@@ -168,7 +168,6 @@ GameObject:
   - component: {fileID: 1111216470}
   - component: {fileID: 1111216469}
   - component: {fileID: 1111216473}
-  - component: {fileID: 1111216474}
   m_Layer: 0
   m_Name: Quad
   m_TagString: Untagged
@@ -250,24 +249,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1111216468}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37201930cf350bd47bb64b04dec1573d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BrowserTextureSrc: {fileID: 1111216474}
---- !u!114 &1111216474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1111216468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40d8a0763eb35394a8e10dba52666a59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   windowSize:
     _width: 1920
     _height: 1080
+  url: http://www.metmuseum.org/art/collection/search/436158
 --- !u!1 &1215737177
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,7 +314,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 90
+  field of view: 40
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -351,7 +339,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1215737177}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
